@@ -1,3 +1,7 @@
+import DefaultImg from './image/default';
+import SimpleImg from './image/simple';
+require('./style/index.css');
+
 // description	自定义描述内容	string | v-slot	-
 // imageStyle	图片样式	CSSProperties	-	1.5.0
 // image	设置显示图片，为 string 时表示自定义图片地址	string | v-slot	false
@@ -5,7 +9,7 @@
 const createProps = () => {
   return {
     description: String,
-    imageStyle: () => {},
+    imageStyle: Object,
     image: String,
   };
 };
@@ -15,21 +19,31 @@ const Empty = {
   props: {
     ...createProps(),
   },
-  created() {
-    let props = Object.entries(this.$props);
-    for (const [key, value] of props) {
-      console.log(key, value);
-    }
-  },
   methods: {
     renderEmpty() {
-      return <div>我是好人{this.description}</div>;
+      let { image, imageStyle = {}, description } = this.$props;
+      let imageNode = null;
+      if (image && typeof image === 'string') {
+        imageNode = <img alt="empty" src={image} />;
+      } else {
+        imageNode = <DefaultImg />;
+      }
+      let desNode = description && <p>{description}</p>;
+      return (
+        <div class="m-empty">
+          <div class="m-empty-img" style={imageStyle}>{imageNode}</div>
+          {desNode}
+        </div>
+      );
     },
   },
   render() {
     return this.renderEmpty();
   },
 };
+
+Empty.PRESENTED_IMAGE_DEFAULT = DefaultImg;
+Empty.PRESENTED_IMAGE_SIMPLE = SimpleImg;
 
 Empty.install = function(Vue) {
   Vue.component(Empty.name, Empty);

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <m-empty description="123"></m-empty>
+    <m-empty description="这里是空的" :imageStyle="{width: '120px', height: '120px'}"></m-empty>
   </div>
 </template>
 
@@ -13,12 +13,6 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+/* #app {
+} */
 </style>
