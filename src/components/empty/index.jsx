@@ -25,7 +25,7 @@ const Empty = {
       let { image, imageStyle = {}, description } = $props;
       let imageNode = null;
       if (image && typeof image === 'string') {
-        imageNode = <img alt="empty" src={image} />;
+        imageNode = <img alt="empty" class="image" src={image} />;
       } else {
         imageNode = <DefaultImg />;
       }
