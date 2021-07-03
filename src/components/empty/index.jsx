@@ -30,7 +30,7 @@ const Empty = {
         imageNode = <DefaultImg />;
       }
       let desNode = description && <p>{description}</p>;
-      let defaultNode = $slots && $slots.default && <div class="footer">{$slots.default}</div>;
+      let defaultNode = $slots.default && <div class="footer">{$slots.default}</div>;
       return (
         <div class="m-empty">
           <div class="m-empty-img" style={imageStyle}>{imageNode}</div>
