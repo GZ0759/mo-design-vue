@@ -21,7 +21,8 @@ const Empty = {
   },
   methods: {
     renderEmpty() {
-      let { image, imageStyle = {}, description } = this.$props;
+      let { $slots, $props } = this;
+      let { image, imageStyle = {}, description } = $props;
       let imageNode = null;
       if (image && typeof image === 'string') {
         imageNode = <img alt="empty" src={image} />;
@@ -29,10 +30,12 @@ const Empty = {
         imageNode = <DefaultImg />;
       }
       let desNode = description && <p>{description}</p>;
+      let defaultNode = $slots && $slots.default && <div class="footer">{$slots.default}</div>;
       return (
         <div class="m-empty">
           <div class="m-empty-img" style={imageStyle}>{imageNode}</div>
           {desNode}
+          {defaultNode}
         </div>
       );
     },
