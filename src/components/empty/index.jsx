@@ -10,7 +10,7 @@ const createProps = () => {
   return {
     description: String,
     imageStyle: Object,
-    image: String,
+    image: [String, Object],
   };
 };
 
@@ -24,16 +24,25 @@ const Empty = {
       let { $slots, $props } = this;
       let { image, imageStyle = {}, description } = $props;
       let imageNode = null;
+      let cls = ['m-empty'];
       if (image && typeof image === 'string') {
         imageNode = <img alt="empty" class="image" src={image} />;
+      } else if (typeof image === 'object' && image.PRESENTED_IMAGE_SIMPLE) {
+        const Image = image;
+        imageNode = <Image />;
+        cls.push('m-empty-normal');
       } else {
         imageNode = <DefaultImg />;
       }
       let desNode = description && <p>{description}</p>;
-      let defaultNode = $slots.default && <div class="footer">{$slots.default}</div>;
+      let defaultNode = $slots.default && (
+        <div class="footer">{$slots.default}</div>
+      );
       return (
-        <div class="m-empty">
-          <div class="m-empty-img" style={imageStyle}>{imageNode}</div>
+        <div class={cls}>
+          <div class="m-empty-img" style={imageStyle}>
+            {imageNode}
+          </div>
           {desNode}
           {defaultNode}
         </div>
