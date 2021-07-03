@@ -19,12 +19,20 @@ const Empty = {
   props: {
     ...createProps(),
   },
-  methods: {
-    renderEmpty() {
-      let { $slots, $props } = this;
-      let { image, imageStyle = {}, description } = $props;
+  data() {
+    return {
+      cls: ['m-empty'],
+    };
+  },
+  computed: {
+    // 获取图片内容
+    getImageNode() {
+      let {
+        cls,
+        image,
+        $slots: { image: imageSlot },
+      } = this;
       let imageNode = null;
-      let cls = ['m-empty'];
       if (image && typeof image === 'string') {
         imageNode = <img alt="empty" class="image" src={image} />;
       } else if (typeof image === 'object' && image.PRESENTED_IMAGE_SIMPLE) {
@@ -32,19 +40,41 @@ const Empty = {
         imageNode = <Image />;
         cls.push('m-empty-normal');
       } else {
-        imageNode = <DefaultImg />;
+        imageNode = imageSlot || <DefaultImg />;
       }
-      let desNode = description && <p>{description}</p>;
-      let defaultNode = $slots.default && (
-        <div class="footer">{$slots.default}</div>
-      );
+      return imageNode;
+    },
+    // 获取描述内容
+    getDescNode() {
+      let { description,$slots: { description: descSlot }, } = this;
+      let descNode = null;
+      descNode = descSlot || (description && <p>{description}</p>);
+      return descNode;
+    },
+    // 获取默认卡槽
+    getDefaultNode() {
+      let { $slots } = this;
+      return $slots.default && <div class="footer">{$slots.default}</div>
+    }
+  },
+  methods: {
+    renderEmpty() {
+      let {
+        cls,
+        imageStyle = {},
+        getImageNode,
+        getDescNode,
+        getDefaultNode,
+      } = this;
+      // // eslint-disable-next-line no-debugger
+      // debugger;
       return (
         <div class={cls}>
           <div class="m-empty-img" style={imageStyle}>
-            {imageNode}
+            {getImageNode}
           </div>
-          {desNode}
-          {defaultNode}
+          {getDescNode}
+          {getDefaultNode}
         </div>
       );
     },
