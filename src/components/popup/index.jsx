@@ -34,21 +34,50 @@ const Popup = {
   data() {
     return {
       cls: ['m-empty'],
+      inited: this.value,
+      style: {
+        height: '30%',
+        display: 'block',
+      },
     };
   },
-  computed: {},
+  mounted() {
+    if (this.value) {
+      this.open();
+    }
+  },
+  watch: {
+    value(val) {
+      const type = val ? 'open' : 'close';
+      this[type]();
+      this.inted = this.inited || this.value;
+    },
+  },
   methods: {
+    // 关闭图标
+    onClickCloseIcon(e) {
+      this.$emit('click-close-icon', e);
+      console.log('11');
+      this.close();
+    },
+    open() {
+      this.style.display = 'block';
+    },
+    close() {
+      this.style.display = 'none';
+      this.$emit('input');
+    },
     renderPopup() {
-      let { value, $slots, closeable } = this;
-      console.log(closeable);
-      let style = {
-        height: '30%',
-      };
+      let { style, value, $slots, closeable } = this;
       return (
         <transition>
-          <div vShow={value} class='mo-popup' style={style}>
+          <div vShow={value} class="mo-popup" style={style}>
             {$slots.default}
-            {closeable&&(<span class='mo-pupup-cross'>X</span>)}
+            {closeable && (
+              <span onClick={this.onClickCloseIcon} class="mo-pupup-cross">
+                X
+              </span>
+            )}
           </div>
         </transition>
       );
