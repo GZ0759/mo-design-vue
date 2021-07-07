@@ -64,13 +64,13 @@ const Popup = {
       this.style.display = 'block';
     },
     close() {
-      this.style.display = 'none';
+      // this.style.display = 'none';
       this.$emit('input');
     },
     renderPopup() {
       let { style, value, $slots, closeable } = this;
       return (
-        <transition>
+        <transition name="mo-popup-bottom">
           <div vShow={value} class="mo-popup" style={style}>
             {$slots.default}
             {closeable && (

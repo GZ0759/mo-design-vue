@@ -8,9 +8,22 @@
   overflow-x: hidden;
   left: 0;
   bottom: 0;
+  transition: 0.3s;
 }
 .mo-pupup-cross {
-    position: absolute;
-    right: 16px;
-    top: 16px;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+
+.mo-popup-bottom-enter-active {
+  transition-timing-function: ease-out;
+}
+
+.mo-popup-bottom-leave-active {
+  transition-timing-function: ease-in;
+}
+.mo-popup-bottom-enter,
+.mo-popup-bottom-leave-active {
+  transform: translate3d(0, 100%, 0);
 }
