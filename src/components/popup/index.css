@@ -1,0 +1,16 @@
+.mo-popup {
+  position: fixed;
+  max-height: 100%;
+  overflow-y: auto;
+  background-color: #fff;
+  width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  left: 0;
+  bottom: 0;
+}
+.mo-pupup-cross {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+}
