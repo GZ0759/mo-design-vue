@@ -12,7 +12,7 @@ export default {
   name: 'popupList',
   data() {
     return {
-      show: true,
+      show: false,
     };
   },
 };

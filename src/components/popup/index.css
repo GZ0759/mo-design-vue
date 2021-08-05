@@ -1,11 +1,9 @@
 .mo-popup {
   position: fixed;
   max-height: 100%;
-  overflow-y: auto;
+  overflow: auto;
   background-color: #fff;
   width: 100vw;
-  overflow-y: auto;
-  overflow-x: hidden;
   left: 0;
   bottom: 0;
   transition: 0.3s;

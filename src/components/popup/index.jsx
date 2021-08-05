@@ -50,7 +50,7 @@ const Popup = {
     value(val) {
       const type = val ? 'open' : 'close';
       this[type]();
-      this.inted = this.inited || this.value;
+      this.inited = this.inited || this.value;
     },
   },
   methods: {
@@ -75,7 +75,7 @@ const Popup = {
             {$slots.default}
             {closeable && (
               <span onClick={this.onClickCloseIcon} class="mo-pupup-cross">
-                X
+                <span>X</span>
               </span>
             )}
           </div>
