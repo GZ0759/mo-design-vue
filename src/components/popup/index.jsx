@@ -28,6 +28,10 @@ const createProps = () => {
 
 const Popup = {
   name: 'MPopup',
+  model: {
+    prop: 'value',
+    event: 'change',
+  },
   props: {
     ...createProps(),
   },
@@ -65,21 +69,24 @@ const Popup = {
     },
     close() {
       // this.style.display = 'none';
-      this.$emit('input');
+      this.$emit('change');
     },
     renderPopup() {
       let { style, value, $slots, closeable } = this;
       return (
-        <transition name="mo-popup-bottom">
-          <div vShow={value} class="mo-popup" style={style}>
-            {$slots.default}
-            {closeable && (
-              <span onClick={this.onClickCloseIcon} class="mo-pupup-cross">
-                <span>X</span>
-              </span>
-            )}
-          </div>
-        </transition>
+        <div class="mo-popup-wrap">
+          <div class="mo-popup-mask" vShow={value} onClick={this.close}></div>
+          <transition name="mo-popup-bottom">
+            <div vShow={value} class="mo-popup" style={style}>
+              {$slots.default}
+              {closeable && (
+                <span onClick={this.onClickCloseIcon} class="mo-pupup-cross">
+                  <span>X</span>
+                </span>
+              )}
+            </div>
+          </transition>
+        </div>
       );
     },
   },
