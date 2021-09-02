@@ -1,4 +1,15 @@
-.mo-popup {
+/* 遮罩层 */
+.mo-popup-wrap .mo-popup-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+/* 弹窗内容 */
+.mo-popup-wrap .mo-popup-content {
   position: fixed;
   max-height: 100%;
   left: 0;
@@ -9,26 +20,17 @@
   font-size: 16px;
   z-index: 1000;
 }
-.mo-popup .content-round {
+.mo-popup-wrap .mo-popup-content.popup-content-round {
   border-radius: 10px 10px 0 0;
+  overflow: hidden;
 }
-.mo-popup .mo-pupup-cross {
+.mo-popup-wrap .mo-popup-content .mo-pupup-cross {
   position: absolute;
   right: 16px;
   top: 16px;
 }
-.mo-popup .mo-popup-mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
 /* 动画 */
-.mo-popup {
+.mo-popup-content {
   transition: 0.3s;
 }
 .mo-popup-bottom-enter-active {

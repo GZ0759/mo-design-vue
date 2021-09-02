@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 require('./index.css');
 
 // | v-model (value) | 是否显示弹出层 | _boolean_ | `false` |
@@ -21,8 +22,22 @@ require('./index.css');
 
 const createProps = () => {
   return {
-    value: Boolean,
-    closeable: Boolean,
+    value: {
+      type: Boolean,
+      default: false,
+    },
+    closeable: {
+      type: Boolean,
+      default: true,
+    },
+    overlay: {
+      type: Boolean,
+      default: true,
+    },
+    round: {
+      type: Boolean,
+      default: true,
+    },
   };
 };
 
@@ -36,62 +51,53 @@ const Popup = {
     ...createProps(),
   },
   data() {
-    return {
-      cls: ['m-empty'],
-      inited: this.value,
-      style: {
-        height: '30%',
-        display: 'block',
-      },
-    };
+    return {};
   },
-  mounted() {
-    if (this.value) {
-      this.open();
-    }
-  },
+  mounted() {},
   watch: {
-    value(val) {
-      const type = val ? 'open' : 'close';
-      this[type]();
-      this.inited = this.inited || this.value;
+    value: {
+      handler(val) {
+        let value = Boolean(val);
+        console.log(value, '11');
+      },
+      immediate: true,
     },
   },
   methods: {
-    // 关闭图标
+    // 点击关闭图标
     onClickCloseIcon(e) {
-      this.$emit('click-close-icon', e);
-      console.log('11');
-      this.close();
+      this.$emit('click-close-icon', e); // Events
+      this.onClosePopup(e);
     },
-    open() {
-      this.style.display = 'block';
-    },
-    close() {
-      // this.style.display = 'none';
+    // 关闭弹窗内容
+    onClosePopup(e) {
       this.$emit('change');
-    },
-    renderPopup() {
-      let { style, value, $slots, closeable } = this;
-      return (
-        <div class="mo-popup-wrap">
-          <div class="mo-popup-mask" vShow={value} onClick={this.close}></div>
-          <transition name="mo-popup-bottom">
-            <div vShow={value} class="mo-popup" style={style}>
-              {$slots.default}
-              {closeable && (
-                <span onClick={this.onClickCloseIcon} class="mo-pupup-cross">
-                  <span>X</span>
-                </span>
-              )}
-            </div>
-          </transition>
-        </div>
-      );
+      this.$emit('close', e); // Events
     },
   },
   render() {
-    return this.renderPopup();
+    let { value, closeable, overlay, round } = this;
+    let { $slots } = this;
+    let contentClass = [{ 'popup-content-round': round }];
+    return (
+      <div class="mo-popup-wrap">
+        <div
+          class="mo-popup-mask"
+          vShow={overlay && value}
+          onClick={this.onClosePopup}
+        ></div>
+        <transition name="mo-popup-bottom">
+          <div vShow={value} class={['mo-popup-content', ...contentClass]}>
+            {$slots.default}
+            {closeable && (
+              <span onClick={this.onClickCloseIcon} class="mo-pupup-cross">
+                <span>X</span>
+              </span>
+            )}
+          </div>
+        </transition>
+      </div>
+    );
   },
 };
 
