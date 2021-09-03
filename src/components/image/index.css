@@ -1,0 +1,10 @@
+.mo-image-wrap {
+}
+.mo-image-wrap.image-round {
+  overflow: hidden;
+  border-radius: 50%;
+}
+.mo-image-wrap .mo-image {
+  width: 100%;
+  height: 100%;
+}

@@ -1,6 +1,7 @@
 import { default as Empty } from './empty';
 import { default as Popup } from './popup';
-const components = [Empty, Popup];
+import { default as Image } from './image';
+const components = [Empty, Popup, Image];
 const install = function(Vue) {
   components.map((component) => {
     Vue.use(component);
