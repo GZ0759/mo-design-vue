@@ -7,6 +7,13 @@
       fit="fill"
       round
     />
+    <m-image
+      src="https://img01.yzcdn.cn/vant/cat.jpeg"
+      width="300"
+      height="200"
+      fit="fill"
+      @click="$log"
+    />
   </div>
 </template>
 

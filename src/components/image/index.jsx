@@ -34,7 +34,16 @@ const Image = {
     ...createProps(),
   },
   data() {
-    return {};
+    return {
+      loading: true,
+      error: false,
+    };
+  },
+  wwath: {
+    src() {
+      this.loading = true;
+      this.error = false;
+    }
   },
   mounted() {},
   methods: {
@@ -66,13 +75,12 @@ const Image = {
     let { src, round, alt } = this;
     let contentClass = [{ 'image-round': round }];
     return (
-      <div class={['mo-image-wrap', ...contentClass]} style={contentStyle}>
+      <div class={['mo-image-wrap', ...contentClass]} style={contentStyle} onClick={this.onClick}>
         <img
           class="mo-image"
           src={src}
           alt={alt}
           style={imgStyle}
-          onClick={this.onClick}
         />
       </div>
     );
