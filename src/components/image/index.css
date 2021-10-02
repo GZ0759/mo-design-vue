@@ -8,3 +8,11 @@
   width: 100%;
   height: 100%;
 }
+.mo-error {
+  color: white;
+  background-color: #ff7979;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

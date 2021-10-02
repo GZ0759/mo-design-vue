@@ -35,23 +35,28 @@ const Image = {
   },
   data() {
     return {
-      loading: true,
       error: false,
     };
   },
   wwath: {
     src() {
-      this.loading = true;
       this.error = false;
-    }
+    },
   },
   mounted() {},
   methods: {
+    // 用户点击
     onClick(e) {
       this.$emit('click', e);
     },
+    // 图片加载失败
+    onError(e) {
+      this.error = true;
+      this.$emit('error', e);
+    },
   },
   computed: {
+    // 图片外样式 style
     contentStyle() {
       let { width, height, radius } = this;
       const style = {};
@@ -63,6 +68,7 @@ const Image = {
       isDef(radius) && Object.assign(style, { radius });
       return style;
     },
+    // 图片填充 style
     imgStyle() {
       let { fit: objectFit } = this;
       return {
@@ -72,16 +78,25 @@ const Image = {
   },
   render() {
     let { contentStyle, imgStyle } = this;
-    let { src, round, alt } = this;
+    let { src, round, alt, error } = this;
     let contentClass = [{ 'image-round': round }];
     return (
-      <div class={['mo-image-wrap', ...contentClass]} style={contentStyle} onClick={this.onClick}>
-        <img
-          class="mo-image"
-          src={src}
-          alt={alt}
-          style={imgStyle}
-        />
+      <div
+        class={['mo-image-wrap', ...contentClass]}
+        style={contentStyle}
+        onClick={this.onClick}
+      >
+        {error ? (
+          <div class="mo-error">图片出错了</div>
+        ) : (
+          <img
+            class="mo-image"
+            src={src}
+            alt={alt}
+            style={imgStyle}
+            onError={this.onError}
+          />
+        )}
       </div>
     );
   },

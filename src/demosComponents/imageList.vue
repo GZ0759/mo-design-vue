@@ -8,11 +8,12 @@
       round
     />
     <m-image
-      src="https://img01.yzcdn.cn/vant/cat.jpeg"
+      src="https://img01.yzcdn.cn/vant/cat1.jpeg"
       width="300"
       height="200"
       fit="fill"
       @click="$log"
+      @error="$log('error')"
     />
   </div>
 </template>
