@@ -1,53 +1,59 @@
 /**
  * 格式化时间戳
  * @param {String|Number} timestamp 毫秒时间戳
- * @param {String} [format = 'yyyy-MM-dd HH:mm:ss'] 格式化类型正则
+ * @param {String} [format = 'YYYY-MM-DD HH:mm:ss'] 格式化类型正则
  * @example
- * // return '2022年04月29日 17:03:21'
- * formatTime(1651223001332, 'yyyy年MM月dd日 HH:mm:ss');
+ * // return '2022年04月29日 17:03:21:332'
+ * formatTime(1651223001332, 'YYYY年MM月DD日 HH:mm:ss:SSS');
  * @returns {String}
  */
 
 export const formatTime = (timestamp, format) => {
+  // 设置默认格式，毫秒S/SS/SSS均显示三位数
+  format = format ? format.replace(/S+/, 'S') : 'YYYY-MM-DD HH:mm:ss';
   let date = new Date(parseInt(timestamp));
+  // 正则映射
   let data = {
     'M+': date.getMonth() + 1, //月
-    'd+': date.getDate(), //日
+    'D+': date.getDate(), //日
     'H+': date.getHours(), //小时
     'm+': date.getMinutes(), //分
     's+': date.getSeconds(), //秒
     'q+': Math.floor((date.getMonth() + 3) / 3), //季度
     S: date.getMilliseconds(), //毫秒
   };
-  if (!format) format = 'yyyy-MM-dd HH:mm:ss';
-  // 格式化年份
-  if (/(y+)/.test(format)) {
-    let yearStr = date.getFullYear() + '';
-    // 匹配的年份y正则
-    let yearExp = RegExp.$1;
-    format = format.replace(yearExp, () => {
-      // 四位年份中的倒数个数
-      let len = 4 - yearExp.length;
-      return yearStr.substring(len);
-    });
+
+  // 实际年份字符串
+  let yearStr = date.getFullYear() + '';
+  // 匹配年份y+
+  let [yearExp] = format.match(/Y+/) || [];
+  if (yearExp) {
+    let expLen = 4 - yearExp.length;
+    // 年份由右往左截取
+    let res = yearStr.substring(expLen);
+    // 替换年份内容
+    format = format.replace(yearExp, res);
   }
-  // 格式化除了年份外的单位
-  for (let k in data) {
-    // 添加括号分组的正则
-    let group = new RegExp('(' + k + ')');
-    if (group.test(format)) {
-      // 匹配的正则
-      let dataExp = RegExp.$1;
-      format = format.replace(dataExp, () => {
-        // 匹配的内容字符串
-        let dataCont = data[k] + '';
-        if (dataExp.length === 1) return dataCont;
-        // 正则超过两位数则补0
-        return ('00' + dataCont).substring(dataCont.length);
-        // 非ie浏览器可使用padStart
-        // return dataCont.padStart(2, 0)
-      });
-    }
-  }
+
+  // 遍历替换除了年份外的内容
+  format = Object.keys(data).reduce((pre, cur) => {
+    // 匹配的其他正则形式
+    let [dataExp] = pre.match(cur) || [];
+    // 匹配的其他时间字符串
+    let dataCont = data[cur] + '';
+    if (!dataExp) return pre;
+    // 部分单位填充左侧的0字符
+    let padding = dataCont.padStart(2, '0');
+    // 一位数或毫秒直接输出
+    let res = dataExp.length === 1 ? dataCont : padding;
+    return pre.replace(dataExp, res);
+  }, format);
+
   return format;
 };
+
+// console.log(formatTime(new Date().getTime(), 'YYYY年MM月DD日'));
+// console.log(formatTime(new Date().getTime(), 'YYYY年第q季度'));
+// console.log(formatTime(new Date().getTime(), 'YYYY-MM-DD HH:mm:ss'));
+// console.log(formatTime(new Date().getTime(), 'HH时mm分ss秒'));
+// console.log(formatTime(new Date().getTime(), 'HH:mm:sss:SS'));
